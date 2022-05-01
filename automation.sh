@@ -10,18 +10,20 @@ else
 fi
 
 echo "----Starting apache server----"
-if [ -n "$(sudo systemctl status apache2.service)" ];
+if sudo systemctl status apache2.service | grep running > /dev/null
 then 
 	echo "----Apache service is running----"
 else
+	echo "----Apache is not running, starting apache----"
 	sudo systemctl start apache2
 fi
 
 echo "----Enabling apache server----"
-if [ -n "$(sudo systemctl is-enabled apache2)" ];
+if sudo systemctl is-enabled apache2 | grep enabled > /dev/null
 then
 	echo "----Apache is enabled for reboot----"
 else
+	echo "----Apache is not enabled, enabling now----"
 	sudo systemctl enable apache2
 fi	
 
